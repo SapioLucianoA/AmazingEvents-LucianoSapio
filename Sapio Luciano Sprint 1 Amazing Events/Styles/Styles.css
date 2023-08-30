@@ -154,7 +154,39 @@ p {
     font-size: 1.5rem !important;
     font-weight: bold !important;
 }
-
+.div-checknadsearch {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.check-box {
+    display: flex;
+    flex-direction: column;
+}
+.search-bar {
+    margin-left: 1rem;
+    margin-right: 0.3rem;
+    border-radius: 0.3rem;
+    border-color: rgb(217,3,104);
+    height: 2.4rem;
+}
+.boton-css {
+    align-self: center;
+}
+.contact-h {
+    height: 80vh;
+}
+.div-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    margin-top: 3rem;
+}
+.contact-form {
+    flex-direction: column;
+    width: 75%;
+}
 @media screen and (min-width: 767px) {
     .banner-h {
         height: 15rem;
@@ -167,32 +199,17 @@ p {
         margin: 1rem;
     }
     .contact-h {
-        height: 50rem;
+        height: 100vh;
     }
-    .contact-form {
-        margin-top: 5% !important;
+    .div-form {
+        margin-top: 5rem;
     }
-
-}
-@media screen and (min-width: 991px) {
-    .computerscreen-nav-andchecks {
-        flex-direction: row !important;
-    }
-    .computer-screen-main {
+    .div-checknadsearch {
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
     }
-    .div-computer-screen {
-        flex-direction: row !important;
-        width: 100%;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .search-bar-computer-screen {
-     width: 75%;
-     margin-left: 25%;
-    }
+}
+@media screen and (min-width: 991px) {
     .banner-h {
         height: 15rem;
     }
@@ -206,9 +223,7 @@ p {
     .contact-h {
         height: 50rem;
     }
-    .contact-form {
-        margin-top: 5% !important;
-    }
+
     .img-detail {
         width: 20rem;
         height: 20rem;
@@ -228,5 +243,12 @@ p {
     .c-h5{
         margin-bottom: 3rem;
         font-size: 5rem;
+    }
+    .check-box{
+        flex-direction: row;
+    }
+    .form-check-label {
+        font-size: 1rem !important;
+        margin: 0 !important;
     }
 }
