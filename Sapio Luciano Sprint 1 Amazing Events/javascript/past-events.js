@@ -194,26 +194,52 @@ const data = {
   ],
 };
 let divOfCards = document.getElementById("divOfCards");
-// console.log(divOfCards)
-let eventosEnArray = [];
-for (i=0; i<data.events.length; i++){
-  let evento = data.events[i]
-  eventosEnArray.push([evento])
+// 1ero debo llamar a la fecha indicada
+// cambiar al objeto en varias arrays
+// comprar sus fechas y retornar su valor
+// llamar a la filtracion y despues colcocarlas en las cards correspondientes
+
+const currentDate = new Date(data.currentDate);
+console.log(currentDate)
+
+let filteredEventsPastevents = []
+for(i=0; i<data.events.length; i++){
+  let event = data.events[i]
+  let eventDate = new Date(event.date);
+  if (eventDate < currentDate) {
+    filteredEventsPastevents.push(event);
+  }
 }
-// console.log(eventosEnArray  )
-// for (evento of eventosEnArray){
-//   let event = evento[0];
-//   divOfCards.innerHTML += `
-// <div class="block-card">
-//   <img src="${event.image}" alt="${event.name}" class="img-card">
-//   <div class="card-text-tittle">
-//     <h3> ${event.name} </h3>
-//     <p>${event.description}</p>
-//     <div class="card-button-and-text">
-//       <p>Price: $${event.price}</p>
-//       <a href="./pages/Details.html" class="a-cards">Details</a>
-//     </div>
-//   </div>
-// </div>
-// `
-// }
+console.log(filteredEventsPastevents)
+
+
+console.log(filteredEventsPastevents);
+
+let pastEvents = [];
+for (i=0; i<filteredEventsPastevents.length; i++){
+  let evento = filteredEventsPastevents[i]
+  pastEvents.push([evento])
+}
+console.log(pastEvents)
+
+for (evento of pastEvents){
+  let event = evento[0];
+  divOfCards.innerHTML += `
+<div class="block-card">
+  <img src="${event.image}" alt="${event.name}" class="img-card">
+  <div class="card-text-tittle">
+    <h3> ${event.name} </h3>
+    <p>${event.description}</p>
+    <div class="card-button-and-text">
+      <p>Price: $${event.price}</p>
+      <a href="./pages/Details.html" class="a-cards">Details</a>
+    </div>
+  </div>
+</div>
+`
+}
+
+// const filteredEventsPastevents = data.events.filter(function(event) {
+//   const eventDate = new Date(event.date);
+//   return eventDate < currentDate;
+// });

@@ -238,7 +238,7 @@ p {
         height: 100vh;
     }
     .main-h{
-        height: 100vh;
+        height: 100% !important;
     }
     .c-h5{
         margin-bottom: 3rem;

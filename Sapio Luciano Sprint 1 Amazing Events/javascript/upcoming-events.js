@@ -194,26 +194,49 @@ const data = {
   ],
 };
 let divOfCards = document.getElementById("divOfCards");
-// console.log(divOfCards)
-let eventosEnArray = [];
-for (i=0; i<data.events.length; i++){
-  let evento = data.events[i]
-  eventosEnArray.push([evento])
+
+const currentDate = new Date(data.currentDate);
+
+//new Date (funcion para pasar un string que indica fecha a un valor de Fecha (siempre usa el UTC))
+console.log(currentDate)
+
+let filteredEventsUpcomingEvents = []
+for(i=0; i<data.events.length; i++){
+  let event = data.events[i]
+  let eventDate = new Date(event.date);
+  if (eventDate > currentDate) {
+    filteredEventsUpcomingEvents.push(event);
+  }
 }
-// console.log(eventosEnArray  )
-// for (evento of eventosEnArray){
-//   let event = evento[0];
-//   divOfCards.innerHTML += `
-// <div class="block-card">
-//   <img src="${event.image}" alt="${event.name}" class="img-card">
-//   <div class="card-text-tittle">
-//     <h3> ${event.name} </h3>
-//     <p>${event.description}</p>
-//     <div class="card-button-and-text">
-//       <p>Price: $${event.price}</p>
-//       <a href="./pages/Details.html" class="a-cards">Details</a>
-//     </div>
-//   </div>
-// </div>
-// `
-// }
+console.log(filteredEventsUpcomingEvents)
+
+let upcomingEvents = [];
+for (i=0; i<filteredEventsUpcomingEvents.length; i++){
+  let evento = filteredEventsUpcomingEvents[i]
+  upcomingEvents.push([evento])
+}
+console.log(upcomingEvents)
+
+for (evento of upcomingEvents){
+  let event = evento[0];
+  divOfCards.innerHTML += `
+<div class="block-card">
+  <img src="${event.image}" alt="${event.name}" class="img-card">
+  <div class="card-text-tittle">
+    <h3> ${event.name} </h3>
+    <p>${event.description}</p>
+    <div class="card-button-and-text">
+      <p>Price: $${event.price}</p>
+      <a href="./pages/Details.html" class="a-cards">Details</a>
+    </div>
+  </div>
+</div>
+`
+}
+
+
+// const filteredEventsUpcomingEvents = data.events.filter(function(event) {
+//   const eventDate = new Date(event.date);
+//   return eventDate > currentDate;
+// });
+// console.log(filteredEventsUpcomingEvents)
