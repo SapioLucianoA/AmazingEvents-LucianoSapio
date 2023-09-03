@@ -195,10 +195,11 @@ const data = {
 };
 let divOfCards = document.getElementById("divOfCards");
 // 1ero debo llamar a la fecha indicada
-// cambiar al objeto en varias arrays
-// comprar sus fechas y retornar su valor
+// comparo sus fechas y retornar su valor a una nueva array
 // llamar a la filtracion y despues colcocarlas en las cards correspondientes
 
+
+//new Date (funcion para pasar un string que indica fecha a un valor de Fecha (siempre usa el UTC))
 const currentDate = new Date(data.currentDate);
 console.log(currentDate)
 
@@ -210,9 +211,6 @@ for(i=0; i<data.events.length; i++){
     filteredEventsPastevents.push(event);
   }
 }
-console.log(filteredEventsPastevents)
-
-
 console.log(filteredEventsPastevents);
 
 let pastEvents = [];
@@ -239,7 +237,3 @@ for (evento of pastEvents){
 `
 }
 
-// const filteredEventsPastevents = data.events.filter(function(event) {
-//   const eventDate = new Date(event.date);
-//   return eventDate < currentDate;
-// });
