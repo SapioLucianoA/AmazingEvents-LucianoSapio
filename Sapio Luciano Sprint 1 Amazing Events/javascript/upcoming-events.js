@@ -80,17 +80,30 @@ function creadorDeCards(array){
   creadorDeCards(eventosEnArray)
   // BUSCADOR
   const searchInput = document.querySelector('#search');
+const errorMessage = document.getElementById('search-error-message');
 
-  searchInput.addEventListener('input', e => {
-    const searchValue = searchInput.value.toLowerCase();
-  
-    document.querySelectorAll('.block-card').forEach(card => {
-      card.textContent.toLowerCase().includes(searchValue)
-        ? card.classList.remove('filter')
-        : card.classList.add('filter');
-    });
+searchInput.addEventListener('input', e => {
+  const searchValue = searchInput.value.toLowerCase();
+  let found = false; 
+
+  document.querySelectorAll('.block-card').forEach(card => {
+    if (card.textContent.toLowerCase().includes(searchValue)) {
+      card.classList.remove('filter');
+      found = true; 
+    } else {
+      card.classList.add('filter');
+    }
   });
-  // prevenircarga
-form.addEventListener('submit', function(e) {
+
+  
+  if (!found) {
+    errorMessage.style.display = 'block'; 
+  } else {
+    errorMessage.style.display = 'none'; 
+  }
+});
+
+const form = document.querySelector('.search-bar');
+form.addEventListener('submit', (e) => {
   e.preventDefault();
 });

@@ -194,6 +194,11 @@ p {
 .filter{
     display: none !important;
 }
+.mensaje{
+    font-size: 3rem;
+    color: rgb(217,3,104);
+    font-weight: bold;
+}
 @media screen and (min-width: 767px) {
     .banner-h {
         height: 15rem;
