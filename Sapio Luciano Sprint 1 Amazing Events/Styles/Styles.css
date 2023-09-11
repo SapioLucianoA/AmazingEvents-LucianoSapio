@@ -30,7 +30,9 @@ h1 {
 .font-size {
         font-size: 0.7rem;
 }
-
+.mensaje {
+    padding-bottom: 10rem;
+}
 
 
 footer {
@@ -202,6 +204,9 @@ p {
     }
     .block-card {
         margin: 1rem;
+    }
+    .main-hight{
+        height: 100vh;
     }
     .contact-h {
         height: 100vh;

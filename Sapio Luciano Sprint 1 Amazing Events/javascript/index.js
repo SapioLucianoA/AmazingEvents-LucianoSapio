@@ -71,7 +71,7 @@ function creadorDeCards(array){
       <p>${event.description}</p>
       <div class="card-button-and-text">
         <p>Price: $${event.price}</p>
-        <a href="./pages/Details.html" class="a-cards">Details</a>
+        <a href="./pages/Details.html?parametro=${event._id}" class="a-cards">Details</a>
       </div>
     </div>
   </div>
@@ -82,7 +82,7 @@ function creadorDeCards(array){
   // buscador
   const searchInput = document.querySelector('#search');
 
-  searchInput.addEventListener('input', function() {
+  searchInput.addEventListener('input', e => {
     const searchValue = searchInput.value.toLowerCase();
   
     document.querySelectorAll('.block-card').forEach(card => {
@@ -91,3 +91,10 @@ function creadorDeCards(array){
         : card.classList.add('filter');
     });
   });
+  
+  const form = document.querySelector('.search-bar');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+  });
+  
+
