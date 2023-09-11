@@ -1,0 +1,32 @@
+.color1{
+    background-color: grey;
+}
+.color2{
+    background-color: lightblue;
+}
+.color3{
+    background-color: red;
+}
+.box-sizing{
+    width: 18rem;
+    height: 18rem;
+    
+
+}
+
+.button{
+    width: 10rem;
+    height: 3rem;
+}
+.inputconversion{
+    width: 30rem;
+    margin: 1rem 1rem 1rem;
+    border: none;
+    height: 2rem;
+    font-weight: bold;
+    font-size: xx-large;
+}
+.divejericcio4{
+    border: 0.3rem black solid;
+    margin-top: 2rem;
+}
