@@ -1,110 +1,66 @@
-
+import {filtradoraPasada, creadorDeCheckbox, filtroDeCards, creadorDeCards} from "./modules.js";
 let divOfCards = document.getElementById("divOfCards");
+
 let divofcheckboxs = document.getElementById("checkbox");
 
-const currentDate = new Date(data.currentDate);
+fetch(`https://mindhub-xj03.onrender.com/api/amazing`)
+      .then(response => response.json())
+      .then(data => { 
+        console.log(data)
+        const currentDate = new Date(data.currentDate);
+        console.log(currentDate)
+        // EVENTOS ARRAY
+        let eventosEnArray = []
+        filtradoraPasada(data, currentDate, eventosEnArray)
+        console.log(eventosEnArray)
+
+        // CREADOR DE CHECKBOX
+        let categoriasAgregadas = []
+        creadorDeCheckbox(eventosEnArray, categoriasAgregadas, divofcheckboxs)
+        
+
+        
+        // FILTRADOR DE CHECKBOX
+        filtroDeCards(eventosEnArray)
+        
+        let inputOfCheckboxs = document.querySelectorAll('input[type=checkbox]');
+        inputOfCheckboxs.forEach(checkbox => checkbox.addEventListener('change', () => filtroDeCards(eventosEnArray)));
+        
+        
 
 
-let eventosEnArray = []
+        // creador de cards
+        creadorDeCards(eventosEnArray)
 
-function filtradoraPasada(){
-  let filtraciones = data.events.filter(evento => new Date (evento.date) < currentDate)
-  eventosEnArray = filtraciones
-}
-
-filtradoraPasada(data);
-
-// CHECKBOXs
-
-let categoriasAgregadas = {}
-function creadorDeCheckbox(array){
-  for (let event of array) {
-    if (!categoriasAgregadas[event.category]) {
-      divofcheckboxs.innerHTML += `
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="${event.name}" value="${event.category}">
-          <label class="form-check-label font-color-AE font-label" for="${event.category}">
-            ${event.category}
-          </label>
-        </div>
-      `;
-      categoriasAgregadas[event.category] = true;
-    }
-  }
-}
-creadorDeCheckbox(eventosEnArray)
-
-// Filtardor de cards xcheck
-
-function filtroDeCards() {
-  let checkboxMarcados = document.querySelectorAll('input[type=checkbox]:checked');
-
-
-  let valoresMarcados = Array.from(checkboxMarcados).map(checkbox => checkbox.value);
-
-
-  let eventosFiltrados = eventosEnArray.filter(evento => valoresMarcados.includes(evento.category));
-
-
-  if (valoresMarcados.length === 0) {
-    eventosFiltrados = eventosEnArray;
-  }
-  creadorDeCards(eventosFiltrados);
-}
-let inputOfCheckboxs = document.querySelectorAll('input[type=checkbox]');
-
-inputOfCheckboxs.forEach(checkbox => checkbox.addEventListener('change', filtroDeCards));
-
-// CARDS
-
-function creadorDeCards(array){
-  divOfCards.innerHTML =``;
-  for (let event of array){
-  
-    divOfCards.innerHTML += `
-  <div class="block-card">
-    <img src="${event.image}" alt="${event.name}" class="img-card">
-    <div class="card-text-tittle">
-      <h3> ${event.name} </h3>
-      <p>${event.description}</p>
-      <div class="card-button-and-text">
-        <p>Price: $${event.price}</p>
-        <a href="./Details.html?parametro=${event._id}" class="a-cards">Details</a>
-      </div>
-    </div>
-  </div>
-  `
-  }
-  }
-
-  creadorDeCards(eventosEnArray)
-  
-   // BUSCADOR
-   const searchInput = document.querySelector('#search');
-   const errorMessage = document.getElementById('search-error-message');
-   
-   searchInput.addEventListener('input', e => {
-     const searchValue = searchInput.value.toLowerCase();
-     let found = false; 
-   
-     document.querySelectorAll('.block-card').forEach(card => {
-       if (card.textContent.toLowerCase().includes(searchValue)) {
-         card.classList.remove('filter');
-         found = true; 
-       } else {
-         card.classList.add('filter');
-       }
-     });
-   
-
-     if (!found) {
-       errorMessage.style.display = 'block'; 
-     } else {
-       errorMessage.style.display = 'none'; 
-     }
-   });
-   
-   const form = document.querySelector('.search-bar');
-   form.addEventListener('submit', (e) => {
-     e.preventDefault();
-   });
+        // buscador
+        const searchInput = document.querySelector('#search');
+        const errorMessage = document.getElementById('search-error-message');
+        
+        searchInput.addEventListener('input', e => {
+          const searchValue = searchInput.value.toLowerCase();
+          let found = false; 
+        
+          document.querySelectorAll('.block-card').forEach(card => {
+            if (card.textContent.toLowerCase().includes(searchValue)) {
+              card.classList.remove('filter');
+              found = true; 
+            } else {
+              card.classList.add('filter');
+            }
+          });
+        
+        
+          if (!found) {
+            errorMessage.style.display = 'block'; 
+          } else {
+            errorMessage.style.display = 'none'; 
+          }
+        });
+        
+        const form = document.querySelector('.search-bar');
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+        });
+      })
+      
+      .catch(err => console.log(err))

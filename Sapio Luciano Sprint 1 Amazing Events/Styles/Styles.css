@@ -95,9 +95,6 @@ table tr td {
     flex-direction:column;
     justify-content: center;
 }
-#details-tittle {
-    margin-left: 25%;
-}
 
 .div-cards {
     display: flex;
@@ -110,9 +107,9 @@ table tr td {
 .block-card {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between !important;
     background-color:rgb(217,3,104) ;
-    height: 22rem;
+    height: 23rem;
     width: 17rem;
     padding-top: 1rem;
     padding-left: 1rem;
@@ -124,8 +121,10 @@ table tr td {
 }
 .img-card {
     width: 15rem;
-    height: 10rem;
+    height: 9rem;
     border-radius: 1rem;
+    object-fit: cover
+    
 }
 .a-cards {
     background-color: aqua;
@@ -144,11 +143,14 @@ p {
 .card-text-tittle {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    height: 12rem;
 }
 .card-button-and-text {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    
 }
 .computer-screen-main {
     flex-direction: column;
