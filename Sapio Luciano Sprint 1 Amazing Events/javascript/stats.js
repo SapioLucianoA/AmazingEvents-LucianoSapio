@@ -26,31 +26,38 @@ fetch(`https://mindhub-xj03.onrender.com/api/amazing`)
         // tabla 1 creador
         tablaCeator1 (fisrtsAndLastAssist, capacidadMayor, tabla1, "assistance", "capacity")
 
-        //tabla2 datos
-        let filtracionxCategoryMoney = ordenarPorCategoriaYGananciaAssist(arrayDeAssists);
+        //tabla pasados datos
+        arraydecategorias = ordenarPorCategoria(arrayDeAssists, "assistance", "price")
+
+        // console.log(arraydecategorias)
+
+        sumas = sumarDatos(arraydecategorias)
+        console.log(sumas)
+        //tabla pasados creador
         
+        tabla2creator(sumas)
 
-        // tabla2 creator
-        tabla2creator(filtracionxCategoryMoney)
+        // datos yabla futura
+        let arraydeEstimated = []
+        filtroestimate(data, "estimate", arraydeEstimated)
 
-        // tabla 3 datos
-        let arrayDeEstimates = []
-        filtroEstimate(data, "estimate", arrayDeEstimates)
-        
-        let filtracionxMoneyEstimated = ordenarPorCategoriaYGananciaEstimates(arrayDeEstimates)
-        console.log(filtracionxMoneyEstimated)
+        // console.log(arraydeEstimated)
 
-        // tabla 3 creator
-        tabla3creator(filtracionxMoneyEstimated)
+        estimacion = ordenarPorCategoria(arraydeEstimated, "estimate", "price")
+
+        // console.log(estimacion)
+
+        sumacion = sumarDatos(estimacion)
+
+         console.log(sumacion)
+
+        tabla3creator(sumacion)
+
+
+
+
     })
     .catch(error => console.log(error))
-
-    
-    function filtroAssit(array, element, arrayDeAssists){
-        let filtro = array.events.filter(evento => evento.hasOwnProperty(element))
-        arrayDeAssists.push(...filtro)
-    }
-        
 
     //manejo de datos tabla 1
     
@@ -75,8 +82,8 @@ fetch(`https://mindhub-xj03.onrender.com/api/amazing`)
     }
     
     // primera tabla impresion 
- const tabla1 = document.getElementById("tabla-1")
- function tablaCeator1 (array1, array2, position, element1, element2){
+    const tabla1 = document.getElementById("tabla-1")
+    function tablaCeator1 (array1, array2, position, element1, element2){
     let tabla = `
     <table class="w-100">
     <tr>
@@ -91,52 +98,80 @@ fetch(`https://mindhub-xj03.onrender.com/api/amazing`)
     </tr><tr>`;
     
     for (let i = 0; i < array1.length; i++) {
-        tabla += `<td class ="text-center fw-bold">${array1[i].name}: ${(array1[i][element1]/(array1[i][element2]/100))}%</td>`;
+        tabla += `<td class ="text-center fw-bold">${array1[i].name}: ${(array1[i][element1]/(array1[i][element2]/100)).toFixed(2)}%</td>`;
+        // me olvide de tofixear esto en el github
     }
     
     for (let i = 0; i < array2.length; i++) {
-        tabla += `<td class= "text-center fw-bold">${array2[i].name}-Capacity: ${array2[i][element2]}</td>`;
+        tabla += `<td class= "text-center fw-bold">${array2[i].name}- Capacity: ${array2[i][element2]}</td>`;
     }
     
     tabla += `</tr></table>`;
     
     position.innerHTML = tabla;
+    }
+
+// manejo de datos tabla 2 (pasado)
+
+function sumarDatos(arrays) {
+  return arrays.map(array => {
+      return array.reduce((acumulador, objeto) => {
+          // Si el objeto no tiene la propiedad 'assistance', se usa 'estimate'
+          let assistance = objeto.assistance || objeto.estimate;
+          // Sumamos las propiedades al acumulador
+          acumulador.capacity += objeto.capacity;
+          acumulador.assistance += assistance;
+          // Añadimos la categoría y el precio
+          acumulador.category = objeto.category;
+          // Calculamos la recaudación de este objeto y la sumamos al acumulador
+          let recaudacion = assistance * objeto.price;
+          acumulador.recaudacion += recaudacion;
+          return acumulador;
+      }, {capacity: 0, assistance: 0, recaudacion: 0}); // Inicializamos el acumulador con 0
+  });
 }
 
-// manejo de datos tabla 2
 
-function ordenarPorCategoriaYGananciaAssist(arrayDeAssists) {
+
+
+// estimate and price
+function ordenarPorCategoria (array, elemento1, elemento2){
     // Primero, creamos un objeto para almacenar los eventos por categoría
     let categorias = {};
 
     // iteramos sobre cada evento
-    for (let evento of arrayDeAssists) {
-        if (evento.hasOwnProperty('assistance') && evento.hasOwnProperty('price')) {
-            evento.ganancia = evento.assistance * evento.price;
+    for (let evento of array) {
+        if (evento.hasOwnProperty(elemento1) && evento.hasOwnProperty(elemento2)) {
+            evento.ganancia = evento[elemento1] * evento[elemento2];
+            
         }
         if (!categorias.hasOwnProperty(evento.category)) {
             categorias[evento.category] = [];
         }
-
         categorias[evento.category].push(evento);
-    }
-
-    // iterar y ordenar
-    for (let categoria in categorias) {
-        categorias[categoria].sort((a, b) => b.ganancia - a.ganancia);
-        
-        // el number one
-        categorias[categoria] = categorias[categoria][0];
     }
 
     // Convertimos los valores del objeto a un array y lo devolvemos
     return Object.values(categorias);
-}
+    }
+
+    function filtracion(array, element1, element2){
+        let filtro = array.events.filter(evento => evento.hasOwnProperty(element1) && evento.category === element2);
+return filtro;
+    }
+
+
+
+    function filtroAssit(array, element, arrayDeAssists){
+      let filtro = array.events.filter(evento => evento.hasOwnProperty(element))
+      arrayDeAssists.push(...filtro)
+  }
+
 
 // creador tabla2
-const tabla2 = document.getElementById("tabla-2")
-function tabla2creator(array){
-    let html = `
+    const tabla2 = document.getElementById("tabla-2")
+    function tabla2creator(array){
+    let tablados = `
     <table class="w-100">
     <tr>
       <th colspan="3">
@@ -150,58 +185,30 @@ function tabla2creator(array){
     </tr>
     `;
     for (let events of array){
-        html +=`
+        tablados +=`
         <tr>
           <td class="text-center fw-bold" >${events.category}</td>
-          <td class="text-center fw-bold" >$ ${(events.assistance*events.price)}</td>
+          <td class="text-center fw-bold" >$ ${events.recaudacion}</td>
           <td class="text-center fw-bold" >${(events.assistance/(events.capacity/100)).toFixed(2)}%</td>
         </tr>
         `
     };
-    html +=`
+    tablados +=`
     </table>
     `;
-    tabla2.innerHTML = html;
-}
-
-    // tabla 3 manejo de datos
-function filtroEstimate(array, element, array2){
-    let filtro = array.events.filter(evento => evento.hasOwnProperty(element))
-    array2.push(...filtro)
-}
-
-function ordenarPorCategoriaYGananciaEstimates (arrayDeEstimates){
-    // Primero, creamos un objeto para almacenar los eventos por categoría
-    let categorias = {};
-
-    // iteramos sobre cada evento
-    for (let evento of arrayDeEstimates) {
-        if (evento.hasOwnProperty('estimate') && evento.hasOwnProperty('price')) {
-            evento.ganancia = evento.estimate * evento.price;
-        }
-        if (!categorias.hasOwnProperty(evento.category)) {
-            categorias[evento.category] = [];
-        }
-
-        categorias[evento.category].push(evento);
+    tabla2.innerHTML = tablados;
     }
 
-    // iterar y ordenar
-    for (let categoria in categorias) {
-        categorias[categoria].sort((a, b) => b.ganancia - a.ganancia);
-        
-        // el number one
-        categorias[categoria] = categorias[categoria][0];
-    }
+    // manejo de dato tabla 3 (future)
+    function filtroestimate(array, element, array2){
+      let filtro = array.events.filter(evento => evento.hasOwnProperty(element))
+      array2.push(...filtro)
+  }
 
-    // Convertimos los valores del objeto a un array y lo devolvemos
-    return Object.values(categorias);
-}
 
-// creador de tabla3
-const tabla3 = document.getElementById("tabla-3")
-function tabla3creator(array){
-    let html = `
+  const tabla3 = document.getElementById("tabla-3")
+    function tabla3creator(array){
+    let tablatres = `
     <table class="w-100">
     <tr>
       <th colspan="3">
@@ -211,20 +218,20 @@ function tabla3creator(array){
     <tr>
       <td class="text-center fw-bold">categories</td>
       <td class="text-center fw-bold" >Revenues</td>
-      <td class="text-center fw-bold" >Porcentage of estimated</td>
+      <td class="text-center fw-bold" >Porcentage of estimate</td>
     </tr>
     `;
     for (let events of array){
-        html +=`
+        tablatres +=`
         <tr>
           <td class="text-center fw-bold" >${events.category}</td>
-          <td class="text-center fw-bold" >$ ${(events.estimate*events.price)}</td>
-          <td class="text-center fw-bold" >${(events.estimate/(events.capacity/100)).toFixed(2)}%</td>
+          <td class="text-center fw-bold" >$ ${events.recaudacion}</td>
+          <td class="text-center fw-bold" >${(events.assistance/(events.capacity/100)).toFixed(2)}%</td>
         </tr>
         `
     };
-    html +=`
+    tablatres +=`
     </table>
     `;
-    tabla3.innerHTML = html;
-}
+    tabla3.innerHTML = tablatres;
+    }

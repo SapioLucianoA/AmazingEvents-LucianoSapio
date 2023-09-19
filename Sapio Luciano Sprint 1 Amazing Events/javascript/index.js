@@ -2,12 +2,14 @@ import { creadordeEventosArray, creadorDeCheckbox, filtroDeCards} from "./module
 let divOfCards = document.getElementById("divOfCards");
 
 let divofcheckboxs = document.getElementById("checkbox");
+
 fetch(`https://mindhub-xj03.onrender.com/api/amazing`)
       .then(response => response.json())
       .then(data => { 
         // EVENTOS ARRAY
         let eventosEnArray = []
         creadordeEventosArray(data, eventosEnArray)
+        
         // CREADOR DE CHECKBOX
         let categoriasAgregadas = []
         creadorDeCheckbox(eventosEnArray, categoriasAgregadas, divofcheckboxs)

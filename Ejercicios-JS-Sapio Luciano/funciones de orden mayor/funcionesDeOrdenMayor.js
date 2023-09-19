@@ -93,3 +93,14 @@ function TablaCatadora(array, id){
     document.getElementById(id).innerHTML = table;
 }
 TablaCatadora (beers, "tabla")
+
+
+
+        // console.log(arrayDeAssists)
+        let conscertA = filtracion(data, "assistance", "Concert");
+        let bookA = filtracion(data, "assistance", "Books" )
+        let cinemaA = filtracion (data, "assistance", "Cinema")
+        let foodA = filtracion(data, "assistance", "Food")
+        let museumA = filtracion (data, "assistance", "Museum")
+        let partyA = filtracion (data, "assistance", "Party")
+        let raceA =filtracion (data, "assistance", "Race")
